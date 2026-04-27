@@ -40,10 +40,6 @@ def load_metrics():
 st.markdown("""
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-    /* Collapse empty Streamlit containers that add clutter */
-    div:empty {
-        display: none !important;
-    }
     .st-emotion-cache-1y4p8pa {
         padding-top: 1rem;
     }
