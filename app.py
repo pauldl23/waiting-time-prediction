@@ -36,24 +36,31 @@ def load_metrics():
         return joblib.load(engine.metrics_path)
     return None
 
-# --- STYLING (APPLE DESIGN SYSTEM) ---
+# --- STYLING (HIGH-TECH SAAS DESIGN SYSTEM) ---
 st.markdown("""
-<link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
+    /* Collapse empty Streamlit containers that add clutter */
+    div:empty {
+        display: none !important;
+    }
+    .st-emotion-cache-1y4p8pa {
+        padding-top: 1rem;
+    }
+    
     :root {
-        --primary: #0071e3; /* Apple Blue */
-        --bg-main: #fbfbfd;
-        --sidebar-bg: rgba(255, 255, 255, 0.8);
-        --card-bg: #ffffff;
-        --text-main: #1d1d1f;
-        --text-secondary: #86868b;
-        --border-color: #d2d2d7;
+        --primary: #00FFFF; /* Electric Cyan */
+        --success: #00E676; /* Electric Green */
+        --bg-main: #101010;
+        --sidebar-bg: rgba(16, 16, 16, 0.75);
+        --card-bg: rgba(20, 20, 25, 0.6);
+        --text-main: #FFFFFF;
+        --text-secondary: #A0A0A0;
+        --border-color: #2a2a2ab3;
     }
 
     html, body, [class*="css"], .stText, .stMarkdown {
-        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", "Segoe UI", Helvetica, Arial, sans-serif !important;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif !important;
         -webkit-font-smoothing: antialiased;
         color: var(--text-main);
     }
@@ -61,111 +68,129 @@ st.markdown("""
     .stApp {
         background-color: var(--bg-main);
     }
+    
+    /* Hide top menu and footer for cleaner app feel */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
 
     /* Entry Animations */
     @keyframes fadeUp {
-        from { opacity: 0; transform: translateY(20px); }
+        from { opacity: 0; transform: translateY(10px); }
         to { opacity: 1; transform: translateY(0); }
-    }
-
-    .animate-up {
-        animation: fadeUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     }
 
     /* Fixed Sidebar (Glassmorphism) */
     section[data-testid="stSidebar"] {
         background-color: var(--sidebar-bg) !important;
-        backdrop-filter: blur(20px);
+        backdrop-filter: blur(12px);
         border-right: 1px solid var(--border-color);
         min-width: 250px !important;
     }
 
     .sidebar-content {
-        padding: 2rem 1.5rem;
+        padding: 24px 16px;
     }
 
-    /* Premium Card System */
+    /* Premium SaaS Card System */
     .card {
-        padding: 32px;
-        border-radius: 18px;
+        padding: 24px;
+        border-radius: 8px;
         background-color: var(--card-bg);
-        border: 1px solid rgba(210, 210, 215, 0.4);
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
-        margin-bottom: 24px;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(12px);
+        margin-bottom: 16px;
         opacity: 0;
         animation: fadeUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     }
 
     .metric-value {
-        font-size: 4rem;
+        font-family: "Roboto Mono", monospace !important;
+        font-size: 3.5rem;
         font-weight: 700;
-        letter-spacing: -0.03em;
+        letter-spacing: -0.05em;
         color: var(--text-main);
         line-height: 1;
+        text-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
     }
 
     .metric-label {
-        font-size: 0.85rem;
+        font-family: "Inter", sans-serif;
+        font-size: 0.8rem;
         font-weight: 600;
         color: var(--text-secondary);
         text-transform: uppercase;
-        letter-spacing: 0.02em;
-        margin-bottom: 8px;
+        letter-spacing: 0.05em;
+        margin-bottom: 12px;
     }
 
     /* UI Components */
     div[data-testid="stForm"] {
         border: none !important;
         padding: 0 !important;
+        background: transparent !important;
     }
 
     .stButton > button {
-        background-color: var(--primary) !important;
-        color: white !important;
-        border: none !important;
-        padding: 12px 24px !important;
-        border-radius: 980px !important; /* Apple pill style */
+        background: transparent !important;
+        color: var(--primary) !important;
+        border: 1px solid var(--primary) !important;
+        padding: 10px 24px !important;
+        border-radius: 4px !important; 
         font-weight: 600 !important;
-        font-size: 1rem !important;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        font-size: 0.95rem !important;
+        letter-spacing: 0.02em;
+        transition: all 0.2s ease-in-out !important;
+        box-shadow: inset 0 0 0 rgba(0, 255, 255, 0);
     }
 
     .stButton > button:hover {
-        transform: scale(1.02);
-        background-color: #0077ed !important;
-        box-shadow: 0 8px 16px rgba(0, 113, 227, 0.2);
+        background-color: rgba(0, 255, 255, 0.1) !important;
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.1) !important;
+        text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
     }
 
     /* Sidebar Navigation */
     .nav-btn button {
         background: transparent !important;
         border: none !important;
-        color: var(--text-main) !important;
+        color: var(--text-secondary) !important;
         text-align: left !important;
         padding: 10px 16px !important;
-        border-radius: 10px !important;
-        font-size: 0.95rem !important;
+        border-radius: 6px !important;
+        font-size: 0.9rem !important;
         font-weight: 500 !important;
+        transition: color 0.2s;
+    }
+    
+    .nav-btn button:hover {
+        color: var(--text-main) !important;
     }
 
     .nav-btn-active button {
-        background: rgba(0, 113, 227, 0.1) !important;
+        background: rgba(0, 255, 255, 0.05) !important;
         color: var(--primary) !important;
         font-weight: 600 !important;
+        border-left: 2px solid var(--primary) !important;
+        border-radius: 0 6px 6px 0 !important;
     }
 
     /* Header Styles */
     .section-title {
-        font-size: 3rem;
+        font-family: "Inter", sans-serif;
+        font-size: 2.25rem;
         font-weight: 700;
         letter-spacing: -0.02em;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.25rem;
+        color: var(--text-main);
     }
 
     .section-subtitle {
-        font-size: 1.25rem;
+        font-family: "Inter", sans-serif;
+        font-size: 1rem;
         color: var(--text-secondary);
-        margin-bottom: 3rem;
+        margin-bottom: 2rem;
         font-weight: 400;
     }
 </style>
@@ -221,13 +246,13 @@ def show_predict_page():
         
         pred = st.session_state.get('last_prediction', 22.5)
         
-        # Apple-Style Hero Card
+        # SaaS-Style Hero Card
         st.markdown(f"""
-        <div class="card" style="background: #ffffff; text-align: center; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 20px 40px rgba(0,0,0,0.04);">
+        <div class="card" style="text-align: center; border-top: 2px solid var(--primary);">
             <p class="metric-label">Expected Wait</p>
             <div class="metric-value" style="color: var(--primary);">{pred:.0f}<span style="font-size: 1.5rem; color: var(--text-secondary); margin-left: 8px;">min</span></div>
-            <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid #f2f2f7; display: flex; justify-content: center; gap: 24px;">
-                <div><p class="metric-label" style="font-size: 0.65rem;">Confidence</p><p style="font-weight: 600; margin: 0;">94%</p></div>
+            <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-color); display: flex; justify-content: center; gap: 24px;">
+                <div><p class="metric-label" style="font-size: 0.65rem;">Confidence</p><p style="font-weight: 600; margin: 0; color: var(--primary);">94%</p></div>
                 <div><p class="metric-label" style="font-size: 0.65rem;">Engine</p><p style="font-weight: 600; margin: 0;">Core v2.4</p></div>
             </div>
         </div>
@@ -235,7 +260,7 @@ def show_predict_page():
         
         # Risk Badge
         risk_info = get_engine().get_risk_analysis(pred, customers if 'customers' in locals() else 42, 6)
-        r_color = {"Low": "#1d1d1f", "Medium": "#ff9500", "High": "#ff3b30"}[risk_info['risk']]
+        r_color = {"Low": "var(--success)", "Medium": "#FFCA28", "High": "#FF1744"}[risk_info['risk']]
         
         st.markdown(f"""
         <div class="card" style="padding: 24px;">
@@ -283,7 +308,7 @@ def show_dashboard_page():
         st.markdown('<p class="metric-label">Efficiency Over Time</p>', unsafe_allow_html=True)
         avg_hourly = data.groupby('Hour_of_Day')['Wait_Time_Minutes'].mean().reset_index()
         avg_hourly = avg_hourly.set_index('Hour_of_Day')
-        st.area_chart(avg_hourly['Wait_Time_Minutes'], color="#0071e3")
+        st.area_chart(avg_hourly['Wait_Time_Minutes'], color="#00FFFF")
         st.markdown('</div>', unsafe_allow_html=True)
 
     with col_r:
@@ -291,7 +316,7 @@ def show_dashboard_page():
         st.markdown('<p class="metric-label">Staffing Impact</p>', unsafe_allow_html=True)
         # Optimized: Using native Streamlit box-plot equivalent
         st.write("Distribution by Staff Count")
-        st.bar_chart(data.groupby('Staff_On_Duty')['Wait_Time_Minutes'].mean(), color="#0071e3")
+        st.bar_chart(data.groupby('Staff_On_Duty')['Wait_Time_Minutes'].mean(), color="#00FFFF")
         st.markdown('</div>', unsafe_allow_html=True)
 
 # --- PAGE: DATA SCIENCE LAB ---
@@ -320,7 +345,7 @@ def show_lab_page():
         }).sort_values('Weight')
         # Optimized: Using native Streamlit bar chart
         chart_data = mock_data.set_index('Feature')
-        st.bar_chart(chart_data['Weight'], color="#0071e3", horizontal=True)
+        st.bar_chart(chart_data['Weight'], color="#00FFFF", horizontal=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
 # --- PAGE: UPLOAD & RETRAIN ---
@@ -354,14 +379,14 @@ def show_upload_page():
         st.markdown('<p class="metric-label">Engine Specification</p>', unsafe_allow_html=True)
         html_status = f"""
         <div style="margin-top: 24px;">
-            <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f2f2f7;">
+            <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-color);">
                 <span style="color: var(--text-secondary);">Framework</span><span style="font-weight: 600;">Scikit-learn 1.4</span>
             </div>
-            <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #f2f2f7;">
+            <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-color);">
                 <span style="color: var(--text-secondary);">Architecture</span><span style="font-weight: 600;">Gradient Boosting</span>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 12px 0;">
-                <span style="color: var(--text-secondary);">State</span><span style="font-weight: 600; color: #34c759;">Optimized</span>
+                <span style="color: var(--text-secondary);">State</span><span style="font-weight: 600; color: var(--success);">Optimized</span>
             </div>
         </div>
         """

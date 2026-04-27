@@ -4,15 +4,15 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>WaitTracker | Initialization</title>
+    <title>WaitTracker | Production Deployment</title>
     
     <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.61.1/build/stlite.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@stlite/browser@0.85.1/build/stlite.css" />
     
     <style>
         body {
             margin: 0;
-            background-color: #fbfbfd;
+            background-color: #101010;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
             display: flex;
             align-items: center;
@@ -29,8 +29,8 @@
         .spinner {
             width: 30px;
             height: 30px;
-            border: 2px solid rgba(0, 113, 227, 0.1);
-            border-top: 2px solid #0071e3;
+            border: 2px solid rgba(0, 255, 255, 0.1);
+            border-top: 2px solid #00FFFF;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             margin: 0 auto 15px;
@@ -44,13 +44,15 @@
         .loading-text {
             font-size: 1.1rem;
             font-weight: 600;
-            color: #1d1d1f;
+            color: #FFFFFF;
+            letter-spacing: 1px;
+            font-family: "Roboto Mono", monospace;
         }
 
         .progress-bar-container {
             width: 140px;
             height: 3px;
-            background: #f2f2f7;
+            background: #2a2a2a;
             border-radius: 2px;
             margin: 12px auto;
             overflow: hidden;
@@ -59,7 +61,8 @@
         .progress-bar-fill {
             width: 0%;
             height: 100%;
-            background: #0071e3;
+            background: #00FFFF;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
             animation: progress 20s cubic-bezier(0.1, 0.7, 0.1, 1) forwards;
         }
 
@@ -78,14 +81,16 @@
         <div class="progress-bar-container">
             <div class="progress-bar-fill"></div>
         </div>
-        <div style="font-size: 0.85rem; color: #86868b; margin-top: 8px;">Please wait. This may take around 60 seconds...</div>
+        <div style="font-size: 0.85rem; color: #86868b; margin-top: 8px;">Please wait. First load takes ~60 seconds.</div>
     </div>
 
+    <!-- Container for Streamlit -->
     <div id="root"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.61.1/build/stlite.js"></script>
-    <script>
-        stlite.mount(
+    <script type="module">
+        import { mount } from "https://cdn.jsdelivr.net/npm/@stlite/browser@0.85.1/build/stlite.js";
+        
+        mount(
             {
                 requirements: ["pandas", "numpy", "scikit-learn", "joblib"], 
                 entrypoint: "app.py",
@@ -100,6 +105,7 @@
             document.getElementById("root")
         );
 
+        // Hide loader when Streamlit app container renders
         const observer = new MutationObserver(() => {
             if (document.getElementById('root').innerHTML !== "") {
                 const loader = document.getElementById('loading-container');

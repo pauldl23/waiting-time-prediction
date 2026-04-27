@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html><head><title>Debug</title></head>
+<body>
+    <div id="logs" style="font-family: monospace; white-space: pre-wrap;"></div>
+    <div id="root"></div>
+    <script>
+        // Override console to dump horizontally to the page
+        const logDiv = document.getElementById('logs');
+        ['log', 'error', 'warn', 'info', 'debug'].forEach(level => {
+            const old = console[level];
+            console[level] = function(...args) {
+                old.apply(console, args);
+                let txt = args.map(a => (typeof a === 'object') ? JSON.stringify(a) : String(a)).join(' ');
+                logDiv.innerHTML += `[${level}] ${txt}<br/>`;
+            };
+        });
+        
+        // Handle unhandled rejections
+        window.addEventListener('unhandledrejection', function(event) {
+            logDiv.innerHTML += `[unhandledrejection] ${event.reason}<br/>`;
+        });
+        window.addEventListener('error', function(event) {
+            logDiv.innerHTML += `[window error] ${event.message}<br/>`;
+        });
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.61.1/build/stlite.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.61.1/build/stlite.js"></script>
+    <script>
+        try {
+            stlite.mount(
+                {
+                    requirements: ["pandas", "numpy", "scikit-learn", "joblib"],
+                    entrypoint: "app.py",
+                    files: {
+                        "app.py": { url: "./app.py" },
+                        "ml_engine.py": { url: "./ml_engine.py" },
+                        "Quiz_25-26.csv": { url: "./Quiz_25-26.csv" },
+                        "best_model.joblib": { url: "./best_model.joblib" },
+                        "model_metrics.joblib": { url: "./model_metrics.joblib" }
+                    },
+                },
+                document.getElementById("root")
+            );
+        } catch (e) {
+            console.error("stlite.mount error", e);
+        }
+    </script>
+</body></html>
