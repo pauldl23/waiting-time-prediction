@@ -278,7 +278,7 @@ def show_dashboard_page():
     with col_l:
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown('<p class="metric-label">Efficiency Over Time</p>', unsafe_allow_html=True)
-        # Optimized: Using native Streamlit area chart for faster loading
+        avg_hourly = data.groupby('Hour_of_Day')['Wait_Time_Minutes'].mean().reset_index()
         avg_hourly = avg_hourly.set_index('Hour_of_Day')
         st.area_chart(avg_hourly['Wait_Time_Minutes'], color="#0071e3")
         st.markdown('</div>', unsafe_allow_html=True)
