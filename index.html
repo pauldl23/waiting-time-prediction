@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>WaitTracker | Intelligent Waiting Time Prediction</title>
+    <meta name="description" content="AI-powered dashboard for restaurant waiting time prediction and operational intelligence." />
+    
+    <!-- SF Pro Font for Apple Aesthetics -->
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.61.1/build/stlite.css" />
+    <style>
+        /* Custom loading screen styling to match Apple aesthetic */
+        #root:empty::before {
+            content: "Initializing Intelligence Engine...";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+            font-weight: 600;
+            color: #1d1d1f;
+            font-size: 1.2rem;
+            letter-spacing: -0.02em;
+        }
+        
+        body {
+            margin: 0;
+            background-color: #fbfbfd;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.61.1/build/stlite.js"></script>
+    <script>
+        stlite.mount(
+            {
+                requirements: ["pandas", "numpy", "plotly", "scikit-learn", "joblib"],
+                entrypoint: "app.py",
+                files: {
+                    "app.py": {
+                        url: "./app.py",
+                    },
+                    "ml_engine.py": {
+                        url: "./ml_engine.py",
+                    },
+                    "Quiz_25-26.csv": {
+                        url: "./Quiz_25-26.csv",
+                    },
+                    "best_model.joblib": {
+                        url: "./best_model.joblib",
+                    },
+                    "model_metrics.joblib": {
+                        url: "./model_metrics.joblib",
+                    },
+                },
+            },
+            document.getElementById("root")
+        );
+    </script>
+</body>
+</html>
