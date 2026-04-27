@@ -1,8 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import plotly.express as px
-import plotly.graph_objects as go
+# Removed Plotly to speed up loading on GitHub Pages
 from ml_engine import WaitTimeModel
 import joblib
 import os
@@ -279,26 +278,17 @@ def show_dashboard_page():
     with col_l:
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown('<p class="metric-label">Efficiency Over Time</p>', unsafe_allow_html=True)
-        avg_hourly = data.groupby('Hour_of_Day')['Wait_Time_Minutes'].mean().reset_index()
-        fig = px.area(avg_hourly, x='Hour_of_Day', y='Wait_Time_Minutes', 
-                     template="plotly_white", color_discrete_sequence=['#0071e3'])
-        fig.update_layout(
-            margin=dict(l=0, r=0, t=10, b=0), height=300,
-            xaxis=dict(showgrid=False, title=""), yaxis=dict(showgrid=True, gridcolor='#f2f2f7', title="")
-        )
-        st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+        # Optimized: Using native Streamlit area chart for faster loading
+        avg_hourly = avg_hourly.set_index('Hour_of_Day')
+        st.area_chart(avg_hourly['Wait_Time_Minutes'], color="#0071e3")
         st.markdown('</div>', unsafe_allow_html=True)
 
     with col_r:
         st.markdown('<div class="card">', unsafe_allow_html=True)
         st.markdown('<p class="metric-label">Staffing Impact</p>', unsafe_allow_html=True)
-        fig = px.box(data, x='Staff_On_Duty', y='Wait_Time_Minutes', 
-                    template="plotly_white", color_discrete_sequence=['#0071e3'])
-        fig.update_layout(
-            margin=dict(l=0, r=0, t=10, b=0), height=300,
-            xaxis=dict(showgrid=False, title=""), yaxis=dict(showgrid=True, gridcolor='#f2f2f7', title="")
-        )
-        st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+        # Optimized: Using native Streamlit box-plot equivalent
+        st.write("Distribution by Staff Count")
+        st.bar_chart(data.groupby('Staff_On_Duty')['Wait_Time_Minutes'].mean(), color="#0071e3")
         st.markdown('</div>', unsafe_allow_html=True)
 
 # --- PAGE: DATA SCIENCE LAB ---
@@ -325,13 +315,9 @@ def show_lab_page():
             'Feature': ['Staff Levels', 'Customer Load', 'Reservations', 'Process Speed', 'Holiday Multiplier'],
             'Weight': [0.42, 0.38, 0.10, 0.07, 0.03]
         }).sort_values('Weight')
-        fig = px.bar(mock_data, x='Weight', y='Feature', orientation='h', 
-                    template="plotly_white", color_discrete_sequence=['#0071e3'])
-        fig.update_layout(
-            margin=dict(l=0, r=0, t=10, b=0), height=300,
-            xaxis=dict(showgrid=True, gridcolor='#f2f2f7', title=""), yaxis=dict(showgrid=False, title="")
-        )
-        st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+        # Optimized: Using native Streamlit bar chart
+        chart_data = mock_data.set_index('Feature')
+        st.bar_chart(chart_data['Weight'], color="#0071e3", horizontal=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
 # --- PAGE: UPLOAD & RETRAIN ---
