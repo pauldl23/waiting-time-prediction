@@ -1,17 +1,8 @@
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
-from sklearn.impute import SimpleImputer
-from sklearn.linear_model import LinearRegression
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
-import joblib
 import os
 from datetime import datetime
+# Heavy imports moved inside classes to speed up initial load
 
 class WaitTimeModel:
     def __init__(self, data_path=None):
@@ -33,6 +24,17 @@ class WaitTimeModel:
         return self.df
 
     def train(self):
+        from sklearn.model_selection import train_test_split
+        from sklearn.preprocessing import StandardScaler, OneHotEncoder
+        from sklearn.compose import ColumnTransformer
+        from sklearn.pipeline import Pipeline
+        from sklearn.impute import SimpleImputer
+        from sklearn.linear_model import LinearRegression
+        from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+        from sklearn.tree import DecisionTreeRegressor
+        from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
+        import joblib
+        
         df = self.load_data()
         if df is None:
             return False
@@ -121,6 +123,7 @@ class WaitTimeModel:
         return True
 
     def predict(self, input_data):
+        import joblib
         if self.pipeline is None:
             if os.path.exists(self.model_path):
                 self.pipeline = joblib.load(self.model_path)
