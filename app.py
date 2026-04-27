@@ -8,32 +8,7 @@ import os
 from datetime import datetime
 import time
 
-# --- BACKGROUND ENGINE INITIALIZATION ---
-# This allows the app to load instantly on the web while heavy AI packages download in the background.
-if 'ml_ready' not in st.session_state:
-    st.session_state.ml_ready = False
-
-async def initialize_engine():
-    try:
-        import micropip
-        with st.sidebar:
-            with st.status("Initializing AI Engine...", expanded=False) as status:
-                st.write("Downloading Scikit-Learn...")
-                await micropip.install("scikit-learn")
-                st.write("Downloading Joblib...")
-                await micropip.install("joblib")
-                st.session_state.ml_ready = True
-                status.update(label="AI Engine Ready", state="complete")
-    except ImportError:
-        # We are likely running locally, so packages should already be installed
-        st.session_state.ml_ready = True
-
-import asyncio
-if not st.session_state.ml_ready:
-    try:
-        asyncio.run(initialize_engine())
-    except:
-        pass # Handle case where loop is already running in streamlit
+import joblib
 
 # --- CONFIGURATION ---
 st.set_page_config(
@@ -228,10 +203,7 @@ def show_predict_page():
 
     with col2:
         if submitted:
-            if not st.session_state.ml_ready:
-                st.error("AI Engine is still initializing. Please wait a few seconds...")
-            else:
-                with st.spinner("Processing through ML engine..."):
+            with st.spinner("Processing through ML engine..."):
                 time.sleep(0.5)
                 s_count = int(staff_label.split()[0].replace('+', ''))
                 input_df = pd.DataFrame({
