@@ -65,10 +65,11 @@ st.markdown("""
         background-color: var(--bg-main);
     }
     
-    /* Hide top menu and footer for cleaner app feel */
+    /* Hide top menu, footer, and sidebar toggle for cleaner app feel */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     header {visibility: hidden;}
+    [data-testid="collapsedControl"] { display: none !important; }
 
     /* Entry Animations */
     @keyframes fadeUp {
