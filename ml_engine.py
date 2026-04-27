@@ -112,9 +112,9 @@ class WaitTimeModel:
         joblib.dump({
             'best_name': self.best_model_name,
             'metrics': self.metrics,
-            'comparison': comparison_table,
-            'actual': best_results['actual'],
-            'pred': best_results['pred']
+            'comparison': comparison_table.to_dict(),  # Save as dict for better cross-env compatibility
+            'actual': best_results['actual'].tolist() if hasattr(best_results['actual'], 'tolist') else best_results['actual'],
+            'pred': best_results['pred'].tolist() if hasattr(best_results['pred'], 'tolist') else best_results['pred']
         }, self.metrics_path)
 
         return True

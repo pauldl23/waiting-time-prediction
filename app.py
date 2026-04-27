@@ -33,7 +33,11 @@ def load_metrics():
     import joblib
     engine = get_engine()
     if os.path.exists(engine.metrics_path):
-        return joblib.load(engine.metrics_path)
+        try:
+            return joblib.load(engine.metrics_path)
+        except Exception as e:
+            # If standard loading fails (e.g. pyarrow error), return None to trigger fallback UI
+            return None
     return None
 
 # --- STYLING (HIGH-TECH SAAS DESIGN SYSTEM) ---
@@ -328,7 +332,10 @@ def show_lab_page():
         st.markdown('<p class="metric-label">Model Evaluation Metrics</p>', unsafe_allow_html=True)
         metrics = load_metrics()
         if metrics:
-            st.dataframe(metrics['comparison'].style.format("{:.3f}"), use_container_width=True)
+            comp = metrics['comparison']
+            if isinstance(comp, dict):
+                comp = pd.DataFrame.from_dict(comp)
+            st.dataframe(comp.style.format("{:.3f}"), use_container_width=True)
         else:
             st.warning("Training records unavailable.")
         st.markdown('</div>', unsafe_allow_html=True)
